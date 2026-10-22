@@ -1,5 +1,4 @@
 stub_linker_script = meson.current_source_dir() / 'link.ld'
-
 stub_exe = executable(
     'stub',
     'stub.c',
@@ -22,14 +21,12 @@ stub_exe = executable(
         ),
     ],
 )
-
 stub_bin = custom_target(
     'stub_bin',
     input: stub_exe,
     output: 'stub.bin',
     command: [objcopy, '-O', 'binary', '@INPUT@', '@OUTPUT@'],
 )
-
 stub_o = custom_target(
     'stub_o',
     input: stub_bin,
@@ -37,13 +34,13 @@ stub_o = custom_target(
     command: [
         objcopy,
         '-I', 'binary',
-        '-O', 'default',
+        '-O', 'elf32-powerpc',
+        '-B', 'powerpc',
         '@INPUT@',
         '@OUTPUT@',
         '--prefix-sections=reloc_stub',
     ],
 )
-
 stub_dep = declare_dependency(
     sources: stub_o,
     include_directories: '.',
