@@ -1,0 +1,18 @@
+diff --git a/libogc/lock_supp.c b/libogc/lock_supp.c
+--- a/libogc/lock_supp.c
++++ b/libogc/lock_supp.c
+@@ -77,14 +76,0 @@
+-void flockfile(FILE *fp)
+-{
+-	__lock_acquire_recursive(fp->_lock);
+-}
+-
+-int ftrylockfile(FILE *fp)
+-{
+-	return ({ __lock_try_acquire_recursive(fp->_lock); });
+-}
+-
+-void funlockfile(FILE *fp)
+-{
+-	__lock_release_recursive(fp->_lock);
+-}
