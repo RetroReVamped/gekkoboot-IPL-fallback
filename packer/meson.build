@@ -15,7 +15,7 @@ packer_stub = static_library(
     ],
     override_options: {
         'c_std': 'gnu17',
-	'b_lto': true,
+        'b_lto': true,
     },
     link_with: packer_crt,
     dependencies: [
@@ -64,7 +64,7 @@ foreach name, exe: compressed_exes
         command: [
             objcopy,
             '-I', 'binary',
-            '-O', 'default',
+            '-O', 'elf32-powerpc',
             '@INPUT@',
             '@OUTPUT@',
             '--prefix-sections=exe_xz',
@@ -75,7 +75,6 @@ foreach name, exe: compressed_exes
         name + '_compressed',
         bin_xz_o,
         link_with: packer_stub,
-
         link_args: [
             '-T' + bin_size.full_path(),
             '-T' + packer_linker_script,
@@ -85,11 +84,11 @@ foreach name, exe: compressed_exes
             bin_size,
             packer_linker_script,
         ],
-
         name_suffix: 'elf',
     )
 
     set_variable(name + '_compressed', out)
+
     if exe.get('dol', false)
         dols += {name: out}
     endif
