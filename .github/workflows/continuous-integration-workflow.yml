@@ -22,6 +22,24 @@ jobs:
     - name: Fetch Qoob prebuilt
       run: curl -Lo res/ipl.rom https://github.com/redolution/gekkoboot/releases/download/r5.2/iplboot.gcb
 
+    - name: Inspect devkitPPC lock definitions
+      run: |
+        export PATH="$DEVKITPPC/bin:$PATH"
+
+        echo "=== Compiler ==="
+        powerpc-eabi-gcc --version | head -n 1
+
+        echo "=== Newlib configuration ==="
+        echo '#include <newlib.h>' | powerpc-eabi-gcc -E -dM -x c - | grep -E 'LOCK|THREAD' || true
+
+        echo "=== Recursive lock type ==="
+        printf '#include <sys/lock.h>\n_LOCK_RECURSIVE_T test_lock;\n' \
+          | powerpc-eabi-gcc -E -P -x c - | tail -n 35
+
+        echo "=== Installed lock headers ==="
+        find /opt/devkitpro/devkitPPC -path '*/sys/lock.h' -print \
+          -exec sed -n '1,120p' {} \;
+
     - name: Build gekkoboot
       run: |
         git config --global --add safe.directory "$GITHUB_WORKSPACE"
