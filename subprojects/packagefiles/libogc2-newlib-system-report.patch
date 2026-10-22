@@ -1,11 +1,6 @@
 diff --git a/libogc/system_report.c b/libogc/system_report.c
 --- a/libogc/system_report.c
 +++ b/libogc/system_report.c
-@@ -33,7 +33,7 @@ static bool Safe = true;
-
- extern s32 InitializeUART(void);
- extern s32 WriteUARTN(void *buf, u32 len);
+@@ -41 +41 @@
 -static int WriteReport(void *c, const char *buf, int n)
 +static int WriteReport(void *c, const char *buf, size_t n)
- {
- 	if (usb_isgeckoalive(Chan)) {
