@@ -24,10 +24,16 @@ jobs:
 
     - name: Build gekkoboot
       run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
         export PATH="$DEVKITPPC/bin:$PATH"
         meson setup . build --cross-file=devkitPPC.ini -Dfull_rom='enabled'
         meson compile -C build
         ninja -C build clang-format-check
+
+    - name: Show libogc2 build errors
+      if: failure()
+      run: |
+        cat build/meson-logs/libogc2-build.log
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
