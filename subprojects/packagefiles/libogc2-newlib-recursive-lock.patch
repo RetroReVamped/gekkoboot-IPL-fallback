@@ -1,0 +1,14 @@
+diff --git a/libogc/lock_supp.c b/libogc/lock_supp.c
+--- a/libogc/lock_supp.c
++++ b/libogc/lock_supp.c
+@@ -29,8 +29,8 @@ void __syscall_lock_init_recursive(_LOCK_RECURSIVE_T *lock)
+
+ 	if(!lock) return;
+
+-	*lock = 0;
++	*lock = __LOCK_INITIALIZER_RECURSIVE;
+ 	ret = LWP_MutexInit(&retlck,true);
+-	if(ret==0) *lock = (_LOCK_RECURSIVE_T)retlck;
++	if(ret==0) lock->lock = (_LOCK_T)retlck;
+ }
+ void __syscall_lock_close(_LOCK_T *lock)
