@@ -435,10 +435,9 @@ main() {
 
 load:
 	if (!dol) {
-		kprintf("No DOL found! Halting.");
-		while (true) {
-			VIDEO_WaitVSync();
-		}
+		kprintf("No DOL loaded. Rebooting into original IPL...\n");
+		delay_exit();
+		return 0;
 	}
 
 	struct __argv dolargs;
