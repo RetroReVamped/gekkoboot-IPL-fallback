@@ -1,0 +1,18 @@
+diff --git a/libogc/console.c b/libogc/console.c
+--- a/libogc/console.c
++++ b/libogc/console.c
+@@ -623,3 +623,3 @@ static s32 __gecko_chan = -1;
+-static int __gecko_write(void *c,const char *buf,int n)
++static int __gecko_write(void *c,const char *buf,size_t n)
+ {
+ 	s32 chan = *(s32*)c;
+@@ -633,3 +633,3 @@ static int __gecko_write(void *c,const char *buf,int n)
+-static int __gecko_write_safe(void *c,const char *buf,int n)
++static int __gecko_write_safe(void *c,const char *buf,size_t n)
+ {
+ 	s32 chan = *(s32*)c;
+@@ -677,3 +677,3 @@ extern s32 WriteUARTN(void *buf,u32 len);
+-static int __uart_write(void *c,const char *buf,int n)
++static int __uart_write(void *c,const char *buf,size_t n)
+ {
+ 	if(InitializeUART()!=0)
